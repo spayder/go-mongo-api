@@ -1,12 +1,20 @@
 package handlers
 
 import (
+	"encoding/json"
+	"log"
 	"net/http"
 
 	"github.com/go-chi/chi"
+	"github.com/go-chi/cors"
 )
 
-func CreateRouter() chi.Mux {
+type Response struct {
+	Msg  string
+	Code int16
+}
+
+func CreateRouter() *chi.Mux {
 	router := chi.NewRouter()
 
 	router.Use(cors.Handler(cors.Options{
@@ -18,7 +26,21 @@ func CreateRouter() chi.Mux {
 		MaxAge:           300,
 	}))
 
-	router.Get("/health", func(w http.ResponseWriter, r *http.Request) {
+	router.Get("/healthcheck", func(w http.ResponseWriter, r *http.Request) {
+		res := Response{
+			Msg:  "Health Check",
+			Code: 200,
+		}
 
+		jsonResponse, err := json.Marshal(res)
+		if err != nil {
+			log.Println(err)
+			return
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		w.Write(jsonResponse)
 	})
+
+	return router
 }

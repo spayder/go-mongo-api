@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"net/http"
 	"time"
@@ -10,7 +9,6 @@ import (
 	"github.com/spayder/go-mongo-api/db"
 	"github.com/spayder/go-mongo-api/handlers"
 	"github.com/spayder/go-mongo-api/services"
-	"go.mongodb.org/mongo-driver/mongo"
 )
 
 type Application struct {
